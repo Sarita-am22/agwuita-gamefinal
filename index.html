@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff9e8">
+  <meta name="description" content="Join Agwuita on a three-level adventure to collect clean water, recycle bottles, and avoid pollution.">
+  <title>Agwuita's Journey to Clean Water</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main class="game">
+    <header class="hero">
+      <p class="eyebrow">A LITTLE ADVENTURE. A BIG MISSION.</p>
+      <h1>💧 Agwuita's Adventure</h1>
+      <p class="subtitle">The Journey to Clean Water</p>
+      <p class="intro">
+        Travel through new places, collect clean water, recycle bottles,
+        and help Agwuita make every drop count!
+      </p>
+    </header>
+
+    <nav class="level-track" aria-label="Adventure progress">
+      <div class="level-step active" id="step-1">
+        <span>1</span>
+        <small>Stream</small>
+      </div>
+      <div class="track-line"></div>
+      <div class="level-step" id="step-2">
+        <span>2</span>
+        <small>Forest</small>
+      </div>
+      <div class="track-line"></div>
+      <div class="level-step" id="step-3">
+        <span>3</span>
+        <small>Village</small>
+      </div>
+    </nav>
+
+    <section class="stats" aria-label="Your adventure stats">
+      <div class="stat">
+        <span>⭐ Score</span>
+        <strong id="score">0</strong>
+      </div>
+      <div class="stat">
+        <span>🧴 Bottles</span>
+        <strong id="bottle-count">0</strong>
+      </div>
+      <div class="stat">
+        <span>💧 Clean water</span>
+        <strong id="water-count">0</strong>
+      </div>
+      <div class="stat">
+        <span>❤️ Lives</span>
+        <strong id="lives">3</strong>
+      </div>
+    </section>
+
+    <section class="mission">
+      <div class="mission-copy">
+        <p class="level-label" id="level-number">ADVENTURE 1 OF 3</p>
+        <h2 id="level-title">The Polluted Stream</h2>
+        <p id="instructions">
+          Find 3 clean water drops and 2 recyclable bottles.
+          Then make your way to the exit!
+        </p>
+      </div>
+      <div class="timer-card">
+        <span>TIME LEFT</span>
+        <strong id="timer">90</strong>
+        <small>seconds</small>
+      </div>
+    </section>
+
+    <section class="story-card">
+      <span class="story-icon" id="story-icon" aria-hidden="true">🌊</span>
+      <div>
+        <h3 id="story-heading">A stream needs help!</h3>
+        <p id="story-text">
+          Agwuita has found a stream affected by pollution.
+          Help collect clean water and remove discarded bottles.
+        </p>
+      </div>
+    </section>
+
+    <section class="maze-section" aria-label="Adventure game board">
+      <div id="maze" class="maze" role="grid"
+           aria-label="Maze. Use arrow keys or movement buttons to play.">
+      </div>
+    </section>
+
+    <p id="feedback" class="feedback" role="status" aria-live="polite">
+      Press Start Adventure when you're ready!
+    </p>
+
+    <section class="legend" aria-label="Game guide">
+      <span>💧 Clean water: +10</span>
+      <span>🧴 Bottle: +20</span>
+      <span>🟤 Dirty water: lose a life</span>
+      <span>🧱 Wall: blocked</span>
+      <span>🏁 Exit: advance</span>
+    </section>
+
+    <section class="controls" aria-label="Game actions">
+      <button id="start-btn" class="primary-btn" type="button">
+        ▶ Start Adventure
+      </button>
+      <button id="reset-btn" class="secondary-btn" type="button">
+        ↻ Restart Journey
+      </button>
+    </section>
+
+    <section class="mobile-controls" aria-label="Movement controls">
+      <h3>Guide Agwuita</h3>
+      <button class="move-btn" data-move="up"
+              type="button" aria-label="Move up">▲</button>
+      <div class="horizontal-controls">
+        <button class="move-btn" data-move="left"
+                type="button" aria-label="Move left">◀</button>
+        <button class="move-btn" data-move="down"
+                type="button" aria-label="Move down">▼</button>
+        <button class="move-btn" data-move="right"
+                type="button" aria-label="Move right">▶</button>
+      </div>
+      <p class="control-hint">On a computer? Use the arrow keys or W, A, S, D.</p>
+    </section>
+
+    <section class="impact">
+      <span aria-hidden="true">🌍💛</span>
+      <h2>Every Drop Matters</h2>
+      <p>
+        Clean water helps people stay healthy, attend school, and build
+        stronger communities. Learn about the mission behind the adventure.
+      </p>
+      <a href="https://www.charitywater.org/"
+         target="_blank" rel="noopener noreferrer">
+        Discover charity: water ↗
+      </a>
+    </section>
+
+    <footer>
+      <p>Agwuita's Journey to Clean Water</p>
+      <small>A student game prototype inspired by clean water access and recycling.</small>
+    </footer>
+  </main>
+</body>
+</html>
+
