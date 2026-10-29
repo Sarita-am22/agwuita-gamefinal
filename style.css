@@ -26,7 +26,7 @@ body {
     radial-gradient(circle at 5% 5%, #ffedaa 0, transparent 30%),
     radial-gradient(circle at 95% 30%, #d8f5fa 0, transparent 30%),
     var(--cream);
-  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-family: "Montserrat", "Trebuchet MS", Arial, sans-serif;
 }
 
 button,
@@ -38,6 +38,10 @@ button {
   font-family: inherit;
 }
 
+input {
+  font-family: inherit;
+}
+
 .game {
   width: min(100%, 860px);
   margin: 0 auto;
@@ -46,6 +50,71 @@ button {
 .hero {
   text-align: center;
   margin-bottom: 24px;
+}
+
+.difficulty-picker {
+  max-width: 530px;
+  margin: 18px auto 7px;
+  padding: 10px;
+  border: 2px solid #e9dfc4;
+  border-radius: 14px;
+  background: var(--white);
+  text-align: center;
+}
+
+.difficulty-picker legend {
+  padding: 0 8px;
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+.difficulty-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.difficulty-options label {
+  cursor: pointer;
+}
+
+.difficulty-options input {
+  position: absolute;
+  opacity: 0;
+}
+
+.difficulty-options span {
+  display: block;
+  min-height: 42px;
+  padding: 11px 6px;
+  border-radius: 9px;
+  background: #eef4f5;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.difficulty-options input:checked + span {
+  color: var(--navy);
+  background: var(--yellow);
+  box-shadow: inset 0 0 0 2px var(--gold);
+}
+
+.difficulty-options input:focus-visible + span {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.difficulty-options input:disabled + span {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.difficulty-summary {
+  margin: 0 0 18px;
+  color: #526977;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-align: center;
 }
 
 .eyebrow {
@@ -463,6 +532,22 @@ footer {
 footer p {
   margin: 0 0 5px;
   font-weight: 800;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 8px 0 12px;
+}
+
+.footer-links a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
 }
 
 footer small {

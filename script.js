@@ -11,6 +11,23 @@ const feedbackElement = $("feedback");
 const startButton = $("start-btn");
 const resetButton = $("reset-btn");
 const gameElement = document.querySelector(".game");
+const difficultyInputs = document.querySelectorAll('input[name="difficulty"]');
+
+const difficultySettings = {
+  easy: { label: "Easy", time: 120, lives: 4 },
+  normal: { label: "Normal", time: 90, lives: 3 },
+  hard: { label: "Hard", time: 60, lives: 2 }
+};
+
+const milestoneMessages = [
+  { score: 30, message: "Nice start! Agwuita is making progress." },
+  { score: 60, message: "Halfway hero! Keep every drop clean." },
+  { score: 100, message: "Water champion! Your mission is shining." }
+];
+
+let selectedDifficulty = "normal";
+let shownMilestones = new Set();
+let audioContext = null;
 
 const levels = [
   {
@@ -87,6 +104,54 @@ function updateStats() {
   waterElement.textContent = water;
   livesElement.textContent = lives;
   timerElement.textContent = timeLeft;
+  checkMilestones();
+}
+
+function getDifficulty() {
+  return difficultySettings[selectedDifficulty];
+}
+
+function setDifficultyControlsDisabled(disabled) {
+  difficultyInputs.forEach(input => {
+    input.disabled = disabled;
+  });
+}
+
+function playTone(frequency, duration, volume = 0.08) {
+  try {
+    audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    oscillator.frequency.value = frequency;
+    oscillator.type = "sine";
+    gain.gain.setValueAtTime(volume, audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + duration);
+  } catch (error) {
+    // Audio is optional; gameplay continues if the browser blocks it.
+  }
+}
+
+function playCollectSound() {
+  playTone(660, 0.12);
+}
+
+function playWinSound() {
+  playTone(523, 0.18);
+  window.setTimeout(() => playTone(659, 0.18), 140);
+  window.setTimeout(() => playTone(784, 0.25), 280);
+}
+
+function checkMilestones() {
+  for (const milestone of milestoneMessages) {
+    if (score >= milestone.score && !shownMilestones.has(milestone.score)) {
+      shownMilestones.add(milestone.score);
+      feedbackElement.textContent = milestone.message;
+    }
+  }
 }
 
 function updateLevelProgress() {
@@ -222,6 +287,7 @@ function startGame() {
   if (gameStarted || gameOver) return;
 
   gameStarted = true;
+  setDifficultyControlsDisabled(true);
   startButton.disabled = true;
   startButton.textContent = "Adventure in Progress!";
   feedbackElement.textContent = levels[levelIndex].startMessage;
@@ -283,12 +349,14 @@ function movePlayer(direction) {
     maze[nextRow][nextCol] = ".";
     feedbackElement.textContent =
       "Sparkling clean water collected! +10 points 💧";
+    playCollectSound();
   } else if (nextCell === "B") {
     bottles++;
     score += 20;
     maze[nextRow][nextCol] = ".";
     feedbackElement.textContent =
       "Bottle collected! Recycling helps keep the environment clean. +20 ♻️";
+    playCollectSound();
   } else if (nextCell === "D") {
     lives--;
     score = Math.max(0, score - 5);
@@ -323,6 +391,7 @@ function finishLevel() {
     feedbackElement.textContent =
       `Level complete! You earned ${timeLeft} bonus points. Get ready for the next part of Agwuita's journey! 🎉`;
     gameStarted = false;
+    setDifficultyControlsDisabled(false);
     startButton.disabled = false;
     startButton.textContent = "➡ Next Adventure";
     gameElement.classList.add("won");
@@ -342,7 +411,7 @@ function startNextLevel() {
   player = { row: 1, col: 1 };
   water = 0;
   bottles = 0;
-  timeLeft = 90;
+  timeLeft = getDifficulty().time;
   gameStarted = false;
   gameOver = false;
 
@@ -370,7 +439,9 @@ function endGame(won, message) {
   if (won) {
     gameElement.classList.add("won");
     launchConfetti();
+    playWinSound();
   }
+  setDifficultyControlsDisabled(false);
 
   updateStats();
 }
@@ -402,11 +473,13 @@ function resetGame() {
   score = 0;
   bottles = 0;
   water = 0;
-  lives = 3;
-  timeLeft = 90;
+  lives = getDifficulty().lives;
+  timeLeft = getDifficulty().time;
   gameStarted = false;
   gameOver = false;
+  shownMilestones.clear();
 
+  setDifficultyControlsDisabled(false);
   gameElement.classList.remove("won");
   showLevel();
   updateStats();
@@ -466,5 +539,17 @@ startButton.addEventListener("click", () => {
 });
 
 resetButton.addEventListener("click", resetGame);
+
+difficultyInputs.forEach(input => {
+  input.addEventListener("change", event => {
+    if (!event.target.checked) return;
+
+    selectedDifficulty = event.target.value;
+    const difficulty = getDifficulty();
+    $("difficulty-summary").textContent =
+      `${difficulty.label}: ${difficulty.time} seconds per adventure, ${difficulty.lives} lives`;
+    resetGame();
+  });
+});
 
 resetGame();

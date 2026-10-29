@@ -7,6 +7,9 @@
   <meta name="theme-color" content="#fff9e8">
   <meta name="description" content="Join Agwuita on a three-level adventure to collect clean water, recycle bottles, and avoid pollution.">
   <title>Agwuita's Journey to Clean Water</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
@@ -21,6 +24,28 @@
         and help Agwuita make every drop count!
       </p>
     </header>
+
+    <fieldset class="difficulty-picker" aria-label="Choose difficulty">
+      <legend>Choose difficulty</legend>
+      <div class="difficulty-options">
+        <label>
+          <input type="radio" name="difficulty" value="easy">
+          <span>Easy</span>
+        </label>
+        <label>
+          <input type="radio" name="difficulty" value="normal" checked>
+          <span>Normal</span>
+        </label>
+        <label>
+          <input type="radio" name="difficulty" value="hard">
+          <span>Hard</span>
+        </label>
+      </div>
+    </fieldset>
+
+    <p id="difficulty-summary" class="difficulty-summary" aria-live="polite">
+      Normal: 90 seconds per adventure, 3 lives
+    </p>
 
     <nav class="level-track" aria-label="Adventure progress">
       <div class="level-step active" id="step-1">
@@ -142,6 +167,14 @@
 
     <footer>
       <p>Agwuita's Journey to Clean Water</p>
+      <nav class="footer-links" aria-label="charity: water links">
+        <a href="https://www.charitywater.org/" target="_blank" rel="noopener noreferrer">
+          Visit charity: water
+        </a>
+        <a href="https://www.charitywater.org/donate" target="_blank" rel="noopener noreferrer">
+          Donate to charity: water
+        </a>
+      </nav>
       <small>A student game prototype inspired by clean water access and recycling.</small>
     </footer>
   </main>
